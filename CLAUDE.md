@@ -59,5 +59,7 @@ The user wants Claude to do the technical work and explain each step briefly. As
 - [ ] Contact email for the MET Norway User-Agent.
 - [x] Step 3: `src/build_dataset.py` writes `data/processed/train_daily.csv`, and `src/explore.py` writes `reports/figures/weather_vs_parking.png`. The trend feature is `level` = mean sessions/day over 28 days ending 7 days earlier (works for 7-day forecasts and avoids extrapolation problems).
 - [x] Step 4: `src/train.py` (test = from 2026-08-17). Result on 2026-10-14: weather gives NO measurable MAE gain (Poisson A = B = 2.55, naive 2.78, LightGBM worse at 3.14). GLM: rain +0.9% (p=0.85, not significant), temp +0.9%/°C (p=0.014). Overdispersion 1.89.
-- [ ] Push: this machine's shell has no GitHub credentials; the user pushes from VS Code. The user wants commits WITHOUT Claude co-author lines, and CLAUDE.md stays uncommitted.
+- [x] Step 5: `src/predict.py` (run daily) fetches MET Norway (User-Agent = repo URL), archives the raw JSON in `data/forecasts/raw/`, and appends to `data/forecasts/weather_forecast_daily.csv` + `data/predictions/predictions.csv`. It draws `reports/figures/forecast_latest.png` with Poisson B. The usage level is flagged `level_stale` when the parking export doesn't reach 7 days before the target day, so it needs fresh exports from SimplePark.
+- [ ] Step 6: compare predictions with actual sessions once a new parking export arrives (use the latest run per target day).
+- Git: the shell has no GitHub credentials, so the user pushes from VS Code. Commits carry NO Claude co-author lines.
 - [x] `.venv` (Python 3.14) with pandas, numpy, requests, matplotlib, scikit-learn and lightgbm. Run scripts as `.venv/bin/python src/<script>.py`.
