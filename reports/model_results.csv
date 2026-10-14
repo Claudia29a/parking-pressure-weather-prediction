@@ -1,0 +1,6 @@
+model,MAE,MAE Amsterdam,MAE Rotterdam,MAE Den Haag,MAE Tilburg
+Naive (recent average),2.784,4.235,3.886,1.965,1.05
+Poisson A,2.553,3.233,3.981,2.004,0.993
+Poisson B,2.553,3.235,3.961,2.032,0.985
+LightGBM A,3.135,5.846,3.814,1.947,0.933
+LightGBM B,3.135,5.704,3.964,1.918,0.954

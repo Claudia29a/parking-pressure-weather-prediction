@@ -221,3 +221,4 @@ __marimo__/
 
 # Project data (stakeholder data must never be pushed)
 data/
+models/
