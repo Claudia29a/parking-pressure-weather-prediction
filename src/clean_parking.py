@@ -6,7 +6,7 @@ Output: data/processed/sessions_clean.csv
 What it does:
 1. Repairs rows the export wrapped in one big quoted string (happens when the
    location description contains a comma) instead of dropping them.
-2. Normalizes city names that appear under two spellings.
+2. Normalizes city names that appear under two spellings (incl. accents).
 3. Drops 0-minute sessions (mistakes / cancellations) and rows without a city.
 4. Prints a short report of how many rows each step removed.
 """
@@ -58,7 +58,9 @@ def main() -> None:
     df = df[~bad]
     print(f"dropped unparseable:     {bad.sum()}")
 
-    df["city"] = df["city"].str.strip().replace(CITY_ALIASES)
+    # Strip accents too: the export has both "Súdwest-Fryslân" and "Sudwest-Fryslan".
+    df["city"] = (df["city"].str.strip().str.normalize("NFKD")
+                  .str.encode("ascii", "ignore").str.decode("ascii").replace(CITY_ALIASES))
     no_city = df["city"].isna()
     df = df[~no_city]
     print(f"dropped missing city:    {no_city.sum()}")
